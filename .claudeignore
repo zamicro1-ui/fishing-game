@@ -1,0 +1,27 @@
+# Unity generated
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+
+# IDE / editor
+*.csproj
+*.sln
+*.user
+*.tmp
+*.suo
+*.unityproj
+*.pidb
+*.booproj
+*.svd
+*.userprefs
+.vs/
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db

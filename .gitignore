@@ -1,0 +1,58 @@
+# =============================================================================
+# Unity .gitignore
+# =============================================================================
+# Excludes Unity-generated caches, build outputs, IDE project files, and OS
+# clutter. Assets/, Packages/, ProjectSettings/, and all .meta files MUST stay
+# tracked — they are the project's source of truth and meta files carry asset
+# GUIDs that break cross-machine references when missing.
+# =============================================================================
+
+# Unity generated folders
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+MemoryCaptures/
+
+# Unity / IDE project files
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Meta files for ignored binaries (do NOT add *.meta — those stay tracked)
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Build artifacts and crash reports
+sysinfo.txt
+*.apk
+*.aab
+*.unitypackage
+*.app
+crashlytics-build.properties
+
+# IDE / editor folders
+.vs/
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini

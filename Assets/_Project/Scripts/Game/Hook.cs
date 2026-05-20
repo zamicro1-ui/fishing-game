@@ -7,9 +7,12 @@ using UnityEngine.InputSystem;
 namespace HolyMackerel.Game
 {
     /// <summary>
-    /// The player-controlled hook. Moves vertically at constant speed (descent or
-    /// ascent) while accepting horizontal steering input. Reports trigger collisions
-    /// (fish, bottom, surface) back to the GameSceneController.
+    /// The hook auto-swings horizontally at a constant speed while descending
+    /// or ascending. Swing direction reverses on three events: hitting the
+    /// left bound, hitting the right bound, or the player tapping on the
+    /// opposite side of the hook (same-side taps are ignored). Vertical motion
+    /// is unchanged. Reports trigger collisions (fish, bottom, surface) back
+    /// to the GameSceneController.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
@@ -24,14 +27,14 @@ namespace HolyMackerel.Game
         [Tooltip("Upward speed (world units per second) when reeling in. Slightly faster than descent feels best.")]
         [SerializeField] private float ascentSpeed = 5f;
 
-        [Tooltip("Horizontal steering speed (world units per second).")]
-        [SerializeField] private float horizontalSpeed = 4f;
+        [Tooltip("Horizontal swing speed (world units per second). The hook moves constantly left or right at this speed while a cast is in progress.")]
+        [SerializeField] private float swingSpeed = 5f;
 
         [Header("Play Area")]
-        [Tooltip("Leftmost X the hook can reach.")]
+        [Tooltip("Leftmost X the hook can reach. Hitting this bound reverses swing direction to the right.")]
         [SerializeField] private float leftBound = -4f;
 
-        [Tooltip("Rightmost X the hook can reach.")]
+        [Tooltip("Rightmost X the hook can reach. Hitting this bound reverses swing direction to the left.")]
         [SerializeField] private float rightBound = 4f;
 
         [Header("Anchors")]
@@ -48,15 +51,27 @@ namespace HolyMackerel.Game
         public HookState State { get; private set; } = HookState.Idle;
         public int CurrentCatchCount { get; private set; }
 
+        private int swingDirection = 1;
+
         private void Update()
         {
             if (State == HookState.Idle) return;
 
+            HandleRedirectTap();
+
             Vector3 pos = transform.position;
 
-            float horizontal = ReadHorizontalInput();
-            pos.x += horizontal * horizontalSpeed * Time.deltaTime;
-            pos.x = Mathf.Clamp(pos.x, leftBound, rightBound);
+            pos.x += swingDirection * swingSpeed * Time.deltaTime;
+            if (pos.x >= rightBound)
+            {
+                pos.x = rightBound;
+                swingDirection = -1;
+            }
+            else if (pos.x <= leftBound)
+            {
+                pos.x = leftBound;
+                swingDirection = 1;
+            }
 
             if (State == HookState.Descending)
             {
@@ -70,26 +85,51 @@ namespace HolyMackerel.Game
             transform.position = pos;
         }
 
-        private float ReadHorizontalInput()
+        private void HandleRedirectTap()
         {
+            Camera cam = Camera.main;
+            if (cam == null) return;
+
+            Vector2 screenPos;
 #if ENABLE_INPUT_SYSTEM
-            float h = 0f;
-            if (Keyboard.current != null)
+            if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
             {
-                if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) h -= 1f;
-                if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) h += 1f;
+                screenPos = Mouse.current.position.ReadValue();
             }
-            return h;
+            else if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+            {
+                screenPos = Touchscreen.current.primaryTouch.position.ReadValue();
+            }
+            else
+            {
+                return;
+            }
 #else
-            return Input.GetAxisRaw("Horizontal");
+            if (Input.GetMouseButtonDown(0))
+            {
+                screenPos = Input.mousePosition;
+            }
+            else if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                screenPos = Input.GetTouch(0).position;
+            }
+            else
+            {
+                return;
+            }
 #endif
+
+            Vector3 world = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 0f));
+            if (world.x < transform.position.x) swingDirection = -1;
+            else if (world.x > transform.position.x) swingDirection = 1;
         }
 
-        /// <summary>Begin descending. Resets the per-round catch count.</summary>
+        /// <summary>Begin descending. Resets the per-round catch count and starts the swing moving right.</summary>
         public void StartDescent()
         {
             State = HookState.Descending;
             CurrentCatchCount = 0;
+            swingDirection = 1;
         }
 
         /// <summary>Begin ascending. Called when the bottom is hit or a fish is caught mid-descent.</summary>

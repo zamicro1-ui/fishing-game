@@ -11,8 +11,11 @@ namespace HolyMackerel.Game
     /// or ascending. Swing direction reverses on three events: hitting the
     /// left bound, hitting the right bound, or the player tapping on the
     /// opposite side of the hook (same-side taps are ignored). Vertical motion
-    /// is unchanged. Reports trigger collisions (fish, bottom, surface) back
-    /// to the GameSceneController.
+    /// is unchanged. Movement runs through <see cref="Rigidbody2D.MovePosition"/>
+    /// in FixedUpdate so trigger contacts register cleanly even at high
+    /// vertical speed; tap input is read in Update and applied via
+    /// <see cref="swingDirection"/>. Reports trigger collisions (fish, bottom,
+    /// surface) back to the GameSceneController.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
@@ -52,16 +55,26 @@ namespace HolyMackerel.Game
         public int CurrentCatchCount { get; private set; }
 
         private int swingDirection = 1;
+        private Rigidbody2D rb;
+
+        private void Awake()
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
 
         private void Update()
         {
             if (State == HookState.Idle) return;
-
             HandleRedirectTap();
+        }
 
-            Vector3 pos = transform.position;
+        private void FixedUpdate()
+        {
+            if (State == HookState.Idle) return;
 
-            pos.x += swingDirection * swingSpeed * Time.deltaTime;
+            Vector2 pos = rb.position;
+
+            pos.x += swingDirection * swingSpeed * Time.fixedDeltaTime;
             if (pos.x >= rightBound)
             {
                 pos.x = rightBound;
@@ -75,14 +88,14 @@ namespace HolyMackerel.Game
 
             if (State == HookState.Descending)
             {
-                pos.y -= descentSpeed * Time.deltaTime;
+                pos.y -= descentSpeed * Time.fixedDeltaTime;
             }
             else if (State == HookState.Ascending)
             {
-                pos.y += ascentSpeed * Time.deltaTime;
+                pos.y += ascentSpeed * Time.fixedDeltaTime;
             }
 
-            transform.position = pos;
+            rb.MovePosition(pos);
         }
 
         private void HandleRedirectTap()
@@ -145,7 +158,8 @@ namespace HolyMackerel.Game
         public void GoIdle()
         {
             State = HookState.Idle;
-            if (surfacePoint != null) transform.position = surfacePoint.position;
+            if (surfacePoint != null && rb != null) rb.position = surfacePoint.position;
+            else if (surfacePoint != null) transform.position = surfacePoint.position;
             DetachAllFish();
             CurrentCatchCount = 0;
         }

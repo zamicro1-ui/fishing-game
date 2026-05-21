@@ -696,7 +696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1464030d2d8f7412b9277e444b8a91b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HolyMackerel.LocationSelect.LocationSelectTapHandler
-  targetScene: 4
+  targetScene: 5
 --- !u!61 &963672603
 BoxCollider2D:
   m_ObjectHideFlags: 0

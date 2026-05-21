@@ -1099,7 +1099,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 166
+  m_SortingOrder: 32767
   m_SortAtRoot: 0
   m_Sort3DAs2D: 0
 --- !u!114 &699228488

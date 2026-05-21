@@ -9,6 +9,7 @@ namespace HolyMackerel.Core
         public const string HubSceneName = "HubScene";
         public const string LocationSelectSceneName = "LocationSelectScene";
         public const string ShopSceneName = "ShopScene";
+        public const string MuseumSceneName = "MuseumScene";
 
         public static void LoadScene(string sceneName)
         {
@@ -38,6 +39,11 @@ namespace HolyMackerel.Core
         public static void LoadShopScene()
         {
             LoadScene(ShopSceneName);
+        }
+
+        public static void LoadMuseumScene()
+        {
+            LoadScene(MuseumSceneName);
         }
     }
 }

@@ -4,11 +4,14 @@ using UnityEngine;
 namespace HolyMackerel.Game
 {
     /// <summary>
-    /// Spawns fish at scene start in two phases: first every FishSpawnEntry's
+    /// Spawns fish at scene start. Regular fish: first every FishSpawnEntry's
     /// minimumCount is honored, then any remaining slots up to fishCount are
-    /// filled by weighted random selection over the entries. minVerticalSpacing
-    /// is enforced globally across both phases via reroll. Spawned fish are
-    /// parented to this transform.
+    /// filled by weighted random selection. Shadow fish: an independent pass
+    /// runs up to maxShadowFish attempts, each rolling shadowSpawnChance to
+    /// produce a tinted, uncatchable silhouette via FishController.isShadow.
+    /// Shadows do not count against the regular fishCount cap. Vertical
+    /// spacing, wall avoidance, and bottom buffer are enforced globally across
+    /// all phases via reroll. Spawned fish are parented to this transform.
     /// </summary>
     public class FishSpawner : MonoBehaviour
     {
@@ -46,6 +49,13 @@ namespace HolyMackerel.Game
         [Tooltip("Minimum vertical distance (world units) between any two spawned fish. The spawner rerolls Y up to 10 times per fish to satisfy this; if it can't, it accepts the last attempt and logs a warning.")]
         [SerializeField] private float minVerticalSpacing = 1.5f;
 
+        [Tooltip("Maximum number of shadow (silhouette, uncatchable) fish that may spawn this round. Independent of fishCount — shadows do NOT count against the regular fish cap.")]
+        [SerializeField] private int maxShadowFish = 6;
+
+        [Range(0f, 1f)]
+        [Tooltip("Probability per shadow slot that the slot produces a shadow. With defaults maxShadowFish=6 and shadowSpawnChance=0.25, the round averages 1.5 shadows.")]
+        [SerializeField] private float shadowSpawnChance = 0.25f;
+
         private void Start()
         {
             if (fishEntries == null || fishEntries.Count == 0)
@@ -79,9 +89,6 @@ namespace HolyMackerel.Game
                 }
             }
 
-            int remaining = fishCount - totalMinimums;
-            if (remaining <= 0) return;
-
             int totalWeight = 0;
             for (int i = 0; i < fishEntries.Count; i++)
             {
@@ -89,17 +96,33 @@ namespace HolyMackerel.Game
                 if (e != null && e.prefab != null && e.weight > 0) totalWeight += e.weight;
             }
 
-            if (totalWeight <= 0)
+            int remaining = fishCount - totalMinimums;
+            if (remaining > 0)
             {
-                Debug.LogWarning($"[FishSpawner] {remaining} slot(s) remaining but no entries have a valid prefab and positive weight — fill phase skipped.", this);
-                return;
+                if (totalWeight <= 0)
+                {
+                    Debug.LogWarning($"[FishSpawner] {remaining} slot(s) remaining but no entries have a valid prefab and positive weight — fill phase skipped.", this);
+                }
+                else
+                {
+                    for (int i = 0; i < remaining; i++)
+                    {
+                        FishSpawnEntry entry = PickWeighted(totalWeight);
+                        if (entry == null) continue;
+                        SpawnOne(entry, -1, spawnedYs);
+                    }
+                }
             }
 
-            for (int i = 0; i < remaining; i++)
+            if (maxShadowFish > 0 && shadowSpawnChance > 0f && totalWeight > 0)
             {
-                FishSpawnEntry entry = PickWeighted(totalWeight);
-                if (entry == null) continue;
-                SpawnOne(entry, -1, spawnedYs);
+                for (int i = 0; i < maxShadowFish; i++)
+                {
+                    if (Random.value >= shadowSpawnChance) continue;
+                    FishSpawnEntry entry = PickWeighted(totalWeight);
+                    if (entry == null) continue;
+                    SpawnOneShadow(entry, -1, spawnedYs);
+                }
             }
         }
 
@@ -125,6 +148,39 @@ namespace HolyMackerel.Game
 
             spawnedYs.Add(y);
             Instantiate(entry.prefab, new Vector3(x, y, 0f), Quaternion.identity, transform);
+        }
+
+        private void SpawnOneShadow(FishSpawnEntry entry, int entryIndex, List<float> spawnedYs)
+        {
+            float top = Mathf.Max(entry.minDepth, entry.maxDepth);
+            float bottom = Mathf.Min(entry.minDepth, entry.maxDepth);
+
+            float x = Random.Range(-horizontalSpread, horizontalSpread);
+            float y = Random.Range(bottom, top);
+            const int maxAttempts = 10;
+            int attempt = 1;
+            while (attempt < maxAttempts && (IsTooClose(y, spawnedYs) || IsInsideWall(new Vector2(x, y)) || IsTooCloseToBottom(new Vector2(x, y))))
+            {
+                x = Random.Range(-horizontalSpread, horizontalSpread);
+                y = Random.Range(bottom, top);
+                attempt++;
+            }
+            if (IsTooClose(y, spawnedYs) || IsInsideWall(new Vector2(x, y)) || IsTooCloseToBottom(new Vector2(x, y)))
+            {
+                Debug.LogWarning($"[FishSpawner] Could not find a valid shadow spawn (entry {entryIndex}) after {maxAttempts} attempts — accepting last attempt.", this);
+            }
+
+            spawnedYs.Add(y);
+
+            bool wasActive = entry.prefab.activeSelf;
+            if (wasActive) entry.prefab.SetActive(false);
+            GameObject go = Instantiate(entry.prefab, new Vector3(x, y, 0f), Quaternion.identity, transform);
+            if (wasActive) entry.prefab.SetActive(true);
+
+            FishController fc = go.GetComponent<FishController>();
+            if (fc != null) fc.isShadow = true;
+
+            go.SetActive(true);
         }
 
         private bool IsInsideWall(Vector2 point)

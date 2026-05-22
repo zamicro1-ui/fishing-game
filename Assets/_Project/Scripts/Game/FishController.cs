@@ -19,14 +19,30 @@ namespace HolyMackerel.Game
         [Tooltip("Optional sprite pool. If non-empty, one sprite is chosen at random on spawn, replacing the prefab's default. Leave empty to use the prefab's assigned sprite.")]
         [SerializeField] private Sprite[] spriteVariants;
 
+        [Tooltip("Marks this fish as a silhouette ('shadow') — tinted dark blue, behind regular fish in sort order, uncatchable by the hook. Set at spawn time by FishSpawner; leave false on the prefab.")]
+        public bool isShadow = false;
+
         public bool IsCaught { get; private set; }
 
         private int direction = 1;
         private SpriteRenderer spriteRenderer;
 
-        private void Start()
+        private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        private void OnEnable()
+        {
+            if (isShadow && spriteRenderer != null)
+            {
+                spriteRenderer.color = new Color(0.15f, 0.25f, 0.4f, 0.75f);
+                spriteRenderer.sortingOrder -= 1;
+            }
+        }
+
+        private void Start()
+        {
             if (spriteRenderer != null && spriteVariants != null && spriteVariants.Length > 0)
             {
                 Sprite pick = spriteVariants[Random.Range(0, spriteVariants.Length)];

@@ -181,7 +181,7 @@ namespace HolyMackerel.Game
             if (other.CompareTag("Fish"))
             {
                 FishController fish = other.GetComponent<FishController>();
-                if (fish != null && !fish.IsCaught)
+                if (fish != null && !fish.isShadow && !fish.IsCaught)
                 {
                     fish.AttachToHook(this);
                     CurrentCatchCount++;

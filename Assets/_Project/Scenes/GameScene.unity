@@ -768,12 +768,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HolyMackerel.Game.CrabSpawner
   crabPrefab: {fileID: 5681119819604759596, guid: 074733997d5d945b6ae6c900e39f6052, type: 3}
   rightAreaMin: {x: 3.4441152, y: -24.738203}
-  rightAreaMax: {x: 3.9970634, y: -1.999999}
+  rightAreaMax: {x: 3.8852985, y: -3.4529228}
   leftAreaMin: {x: -3.8294222, y: -24.794085}
-  leftAreaMax: {x: -3.2764761, y: -2.223527}
+  leftAreaMax: {x: -3.2764761, y: -3.5088043}
   minCount: 1
   maxCount: 2
-  chanceOfMaxCount: 1
+  chanceOfMaxCount: 0.1
 --- !u!4 &120397129
 Transform:
   m_ObjectHideFlags: 0
@@ -1245,6 +1245,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2006486178}
   m_LocalEulerAnglesHint: {x: 0, y: -200, z: 0}
+--- !u!1 &340699641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 340699643}
+  - component: {fileID: 340699642}
+  m_Layer: 0
+  m_Name: JellyfishSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &340699642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340699641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9786b3ac51a9047b1b56f62bd8692f1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HolyMackerel.Game.JellyfishSpawner
+  jellyfishPrefab: {fileID: 605237837371318164, guid: d09bd058170704d5bb2daa43135314cb, type: 3}
+  spawnAreaMin: {x: -2.9441175, y: -24.091103}
+  spawnAreaMax: {x: 3.1676424, y: -4.217658}
+  minCount: 1
+  maxCount: 2
+  chanceOfMaxCount: 0.1
+--- !u!4 &340699643
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340699641}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.16803, y: -12.59769, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &364911663
 GameObject:
   m_ObjectHideFlags: 0
@@ -3591,22 +3641,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HolyMackerel.Game.FishSpawner
   fishEntries:
   - prefab: {fileID: 5681119819604759596, guid: 221ec050aff40491aba9863fb462b0ea, type: 3}
-    minDepth: -25
-    maxDepth: -3
+    areaMin: {x: -2.93237, y: -21.181396}
+    areaMax: {x: 3.0355759, y: -6.1993713}
     minimumCount: 3
     weight: 60
   - prefab: {fileID: 5681119819604759596, guid: 915b764b3b3bf43bfa203c249eb3125f, type: 3}
-    minDepth: -25
-    maxDepth: -3
+    areaMin: {x: -2.9323685, y: -22.987492}
+    areaMax: {x: 3.0871773, y: -4.9093027}
     minimumCount: 1
     weight: 30
   - prefab: {fileID: 5681119819604759596, guid: 755cf2acefa8542599c665becb746cf6, type: 3}
-    minDepth: -25
-    maxDepth: -13
+    areaMin: {x: -2.9323685, y: -22.265053}
+    areaMax: {x: 3.0355756, y: -3.6708355}
     minimumCount: 1
     weight: 10
   fishCount: 8
-  horizontalSpread: 3.5
   bottomBuffer: 0.5
   minVerticalSpacing: 2
   maxShadowFish: 8
@@ -3637,6 +3686,7 @@ GameObject:
   - component: {fileID: 1524561669}
   - component: {fileID: 1524561668}
   - component: {fileID: 1524561667}
+  - component: {fileID: 1524561670}
   m_Layer: 0
   m_Name: BottomTrigger
   m_TagString: Bottom
@@ -3758,12 +3808,26 @@ Transform:
   m_GameObject: {fileID: 1524561666}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.02, y: -24.95, z: 0}
+  m_LocalPosition: {x: 0, y: -15, z: 0}
   m_LocalScale: {x: 1.7275649, y: 1.7275649, z: 1.7275649}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1524561670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524561666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf34f19da76d84a76b81036c133eac93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HolyMackerel.Game.DepthLevelPositioner
+  baseY: -15
+  deltaPerLevel: -5
 --- !u!1 &1525115513
 GameObject:
   m_ObjectHideFlags: 0
@@ -5446,3 +5510,4 @@ SceneRoots:
   - {fileID: 2110625905}
   - {fileID: 87648348}
   - {fileID: 120397129}
+  - {fileID: 340699643}

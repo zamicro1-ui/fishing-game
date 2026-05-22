@@ -154,6 +154,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HolyMackerel.Game.FishController
   swimSpeed: 1.5
   pointValue: 1
+  spriteVariants:
+  - {fileID: -3324353360981568881, guid: 3a4d271e563154fbe8dd4b8e5f2875fc, type: 3}
+  - {fileID: -2519757968393322718, guid: ba16b1ec3cf85413e9b3ba19b1cfe388, type: 3}
+  - {fileID: -807246499673547712, guid: fa08958951614482fb664e88677e8742, type: 3}
+  - {fileID: -8346514774397575542, guid: c77d964d5cb804593a3df9e8d883b552, type: 3}
+  - {fileID: -8020714673838632285, guid: b250b7e844d4a4103b74f5e041e40199, type: 3}
+  - {fileID: 21300000, guid: 7dfb1bda61b2d48ce9a315d1bc6916d5, type: 3}
 --- !u!50 &-6349902511413599370
 Rigidbody2D:
   serializedVersion: 5

@@ -16,6 +16,9 @@ namespace HolyMackerel.Game
         [Tooltip("Score value when caught. Hardcoded to 1 in Phase 1; consumed by upgrade/economy systems later.")]
         public int pointValue = 1;
 
+        [Tooltip("Optional sprite pool. If non-empty, one sprite is chosen at random on spawn, replacing the prefab's default. Leave empty to use the prefab's assigned sprite.")]
+        [SerializeField] private Sprite[] spriteVariants;
+
         public bool IsCaught { get; private set; }
 
         private int direction = 1;
@@ -24,6 +27,11 @@ namespace HolyMackerel.Game
         private void Start()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null && spriteVariants != null && spriteVariants.Length > 0)
+            {
+                Sprite pick = spriteVariants[Random.Range(0, spriteVariants.Length)];
+                if (pick != null) spriteRenderer.sprite = pick;
+            }
             direction = Random.value < 0.5f ? -1 : 1;
             if (spriteRenderer != null) spriteRenderer.flipX = direction < 0;
         }

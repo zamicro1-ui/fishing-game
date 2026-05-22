@@ -2578,22 +2578,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HolyMackerel.Game.FishSpawner
   fishEntries:
   - prefab: {fileID: 5681119819604759596, guid: 221ec050aff40491aba9863fb462b0ea, type: 3}
-    minDepth: -10
+    minDepth: -25
     maxDepth: -3
     minimumCount: 3
     weight: 60
   - prefab: {fileID: 5681119819604759596, guid: 915b764b3b3bf43bfa203c249eb3125f, type: 3}
-    minDepth: -18
-    maxDepth: -10
+    minDepth: -25
+    maxDepth: -3
     minimumCount: 1
     weight: 30
   - prefab: {fileID: 5681119819604759596, guid: 755cf2acefa8542599c665becb746cf6, type: 3}
     minDepth: -25
-    maxDepth: -18
+    maxDepth: -13
     minimumCount: 1
     weight: 10
   fishCount: 8
   horizontalSpread: 3.5
+  bottomBuffer: 0.5
   minVerticalSpacing: 2
 --- !u!4 &1511482983
 Transform:

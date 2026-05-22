@@ -40,6 +40,9 @@ namespace HolyMackerel.Game
         [Tooltip("Half-width of the horizontal spawn range, centered on X=0.")]
         [SerializeField] private float horizontalSpread = 3.5f;
 
+        [Tooltip("Minimum vertical gap (world units) between any spawn and the \"Bottom\"-tagged collider. Spawns whose point is within this distance above the bottom collider are rejected and rerolled. Set to 0 to disable the bottom check.")]
+        [SerializeField] private float bottomBuffer = 0.5f;
+
         [Tooltip("Minimum vertical distance (world units) between any two spawned fish. The spawner rerolls Y up to 10 times per fish to satisfy this; if it can't, it accepts the last attempt and logs a warning.")]
         [SerializeField] private float minVerticalSpacing = 1.5f;
 
@@ -104,23 +107,46 @@ namespace HolyMackerel.Game
         {
             float top = Mathf.Max(entry.minDepth, entry.maxDepth);
             float bottom = Mathf.Min(entry.minDepth, entry.maxDepth);
-            float x = Random.Range(-horizontalSpread, horizontalSpread);
 
+            float x = Random.Range(-horizontalSpread, horizontalSpread);
             float y = Random.Range(bottom, top);
             const int maxAttempts = 10;
             int attempt = 1;
-            while (attempt < maxAttempts && IsTooClose(y, spawnedYs))
+            while (attempt < maxAttempts && (IsTooClose(y, spawnedYs) || IsInsideWall(new Vector2(x, y)) || IsTooCloseToBottom(new Vector2(x, y))))
             {
+                x = Random.Range(-horizontalSpread, horizontalSpread);
                 y = Random.Range(bottom, top);
                 attempt++;
             }
-            if (IsTooClose(y, spawnedYs))
+            if (IsTooClose(y, spawnedYs) || IsInsideWall(new Vector2(x, y)) || IsTooCloseToBottom(new Vector2(x, y)))
             {
-                Debug.LogWarning($"[FishSpawner] Could not find a Y for fish {spawnedYs.Count} (entry {entryIndex}) satisfying minVerticalSpacing={minVerticalSpacing} after {maxAttempts} attempts — accepting last attempt. Spawner is overpacked.", this);
+                Debug.LogWarning($"[FishSpawner] Could not find a valid spawn for fish {spawnedYs.Count} (entry {entryIndex}) after {maxAttempts} attempts — accepting last attempt (may overlap a Wall collider, sit within bottomBuffer={bottomBuffer} of the Bottom collider, or violate minVerticalSpacing={minVerticalSpacing}).", this);
             }
 
             spawnedYs.Add(y);
             Instantiate(entry.prefab, new Vector3(x, y, 0f), Quaternion.identity, transform);
+        }
+
+        private bool IsInsideWall(Vector2 point)
+        {
+            Collider2D[] hits = Physics2D.OverlapPointAll(point);
+            for (int i = 0; i < hits.Length; i++)
+            {
+                if (hits[i] != null && hits[i].CompareTag("Wall")) return true;
+            }
+            return false;
+        }
+
+        private bool IsTooCloseToBottom(Vector2 point)
+        {
+            if (bottomBuffer <= 0f) return false;
+            Vector2 probe = new Vector2(point.x, point.y - bottomBuffer);
+            Collider2D[] hits = Physics2D.OverlapPointAll(probe);
+            for (int i = 0; i < hits.Length; i++)
+            {
+                if (hits[i] != null && hits[i].CompareTag("Bottom")) return true;
+            }
+            return false;
         }
 
         private FishSpawnEntry PickWeighted(int totalWeight)

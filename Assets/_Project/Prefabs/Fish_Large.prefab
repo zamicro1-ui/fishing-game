@@ -128,17 +128,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.028652787, y: 0.14326468}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 20.8125, y: 11.71875}
+    oldSize: {x: 13.32, y: 7.5}
     newSize: {x: 20.8125, y: 11.71875}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3.0056927, y: 1.8595853}
   m_EdgeRadius: 0
 --- !u!114 &7113663667000283248
 MonoBehaviour:
@@ -154,6 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HolyMackerel.Game.FishController
   swimSpeed: 1.5
   pointValue: 7
+  spriteVariants: []
+  isShadow: 0
 --- !u!50 &1247725766494387857
 Rigidbody2D:
   serializedVersion: 5

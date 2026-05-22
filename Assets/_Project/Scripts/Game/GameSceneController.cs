@@ -116,6 +116,23 @@ namespace HolyMackerel.Game
         }
 
         /// <summary>
+        /// Called by Hook when it collides with a "Hazard"-tagged collider
+        /// (crab, jellyfish, etc.). Ends the round immediately with zero
+        /// catches and zero coins — any fish currently on the hook are
+        /// destroyed via Hook.GoIdle's DetachAllFish path. No coins are
+        /// persisted because none were earned.
+        /// </summary>
+        public void OnHookHitHazard()
+        {
+            if (State != GameState.Descending && State != GameState.Ascending) return;
+            State = GameState.Results;
+            CatchCount = 0;
+            CoinsEarned = 0;
+            if (hook != null) hook.GoIdle();
+            if (gameUI != null) gameUI.ShowResults(0, 0);
+        }
+
+        /// <summary>
         /// Hooked up to the results screen's Return-to-Menu button.
         /// </summary>
         public void ReturnToMenu()

@@ -178,6 +178,11 @@ namespace HolyMackerel.Game
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (other.CompareTag("Hazard"))
+            {
+                if (gameController != null) gameController.OnHookHitHazard();
+                return;
+            }
             if (other.CompareTag("Fish"))
             {
                 FishController fish = other.GetComponent<FishController>();

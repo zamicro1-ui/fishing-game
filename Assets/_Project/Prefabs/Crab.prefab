@@ -10,12 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5340002443131604956}
   - component: {fileID: 545570568146480416}
-  - component: {fileID: 1959786647095823879}
-  - component: {fileID: 7113663667000283248}
-  - component: {fileID: -6349902511413599370}
+  - component: {fileID: 5750691298269641026}
   m_Layer: 0
-  m_Name: Fish_Small
-  m_TagString: Fish
+  m_Name: Crab
+  m_TagString: Hazard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 7
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 7dfb1bda61b2d48ce9a315d1bc6916d5, type: 3}
+  m_Sprite: {fileID: 2384260785887967581, guid: c8df731db44ce41ddb8de3adb07bdb52, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,7 +92,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!61 &1959786647095823879
+--- !u!61 &5750691298269641026
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,64 +126,15 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0076919794, y: -0.0076913834}
+  m_Offset: {x: 0.4924271, y: 0.42450678}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5, y: 5}
+    oldSize: {x: 10, y: 10}
     newSize: {x: 15.625, y: 15.625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.5691967, y: 1.1076872}
+  m_Size: {x: 4.3662276, y: 5.996331}
   m_EdgeRadius: 0
---- !u!114 &7113663667000283248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5681119819604759596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98c27eb62ee0a463299a76d5c2ba4971, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HolyMackerel.Game.FishController
-  swimSpeed: 1.5
-  pointValue: 1
-  spriteVariants:
-  - {fileID: -3324353360981568881, guid: 3a4d271e563154fbe8dd4b8e5f2875fc, type: 3}
-  - {fileID: -2519757968393322718, guid: ba16b1ec3cf85413e9b3ba19b1cfe388, type: 3}
-  - {fileID: -807246499673547712, guid: fa08958951614482fb664e88677e8742, type: 3}
-  - {fileID: -8346514774397575542, guid: c77d964d5cb804593a3df9e8d883b552, type: 3}
-  - {fileID: -8020714673838632285, guid: b250b7e844d4a4103b74f5e041e40199, type: 3}
-  - {fileID: 21300000, guid: 7dfb1bda61b2d48ce9a315d1bc6916d5, type: 3}
-  isShadow: 0
---- !u!50 &-6349902511413599370
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5681119819604759596}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0

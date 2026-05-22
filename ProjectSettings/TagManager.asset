@@ -8,6 +8,7 @@ TagManager:
   - Bottom
   - Surface
   - Wall
+  - Hazard
   layers:
   - Default
   - TransparentFX

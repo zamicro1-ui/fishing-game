@@ -7,9 +7,8 @@ namespace HolyMackerel.Game
     /// bounding rects (left and right) at scene start. Always spawns
     /// minCount crabs; chanceOfMaxCount probability bumps that to maxCount.
     /// Each crab independently rolls a 50/50 side, then a uniform random
-    /// (X, Y) within that side's rect. Left-side crabs get
-    /// SpriteRenderer.flipX = true so they mirror the prefab's default
-    /// (assumed right-facing) sprite.
+    /// (X, Y) within that side's rect. Right-side crabs get a local scale X of 1,
+    /// while left-side crabs get a local scale X of -1 to flip them horizontally.
     ///
     /// Visualize the two rects in the Scene view by selecting the
     /// CrabSpawner GameObject — see <see cref="OnDrawGizmosSelected"/>.
@@ -65,8 +64,14 @@ namespace HolyMackerel.Game
                 float y = Random.Range(areaMin.y, areaMax.y);
 
                 GameObject crab = Instantiate(crabPrefab, new Vector3(x, y, 0f), Quaternion.identity, transform);
-                SpriteRenderer sr = crab.GetComponent<SpriteRenderer>();
-                if (sr != null) sr.flipX = !isRightSide;
+                
+                // Get the current local scale to preserve whatever Y and Z values the prefab has
+                Vector3 currentScale = crab.transform.localScale;
+                
+                // Set scale X to 1 if right side, -1 if left side
+                currentScale.x = isRightSide ? 1f : -1f;
+                
+                crab.transform.localScale = currentScale;
             }
         }
 

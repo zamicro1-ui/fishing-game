@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 7113663667000283248}
   - component: {fileID: -6349902511413599370}
   - component: {fileID: 8116367831792150027}
-  - component: {fileID: 7571681862504186875}
   m_Layer: 0
   m_Name: Fish_Small
   m_TagString: Fish
@@ -87,7 +86,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 7
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 7dfb1bda61b2d48ce9a315d1bc6916d5, type: 3}
+  m_Sprite: {fileID: -6352952715537037556, guid: ac85bf9a3887c4e428c97a114e361f87, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -135,7 +134,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5, y: 5}
+    oldSize: {x: 5.12, y: 5.12}
     newSize: {x: 15.625, y: 15.625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -229,19 +228,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!111 &7571681862504186875
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5681119819604759596}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0

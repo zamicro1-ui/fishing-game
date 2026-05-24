@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4ab4c869276f2904fb958ee0207bc59a
+guid: ca3f6ea56d1f25a45bddb695c8fb4b17
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4431272134881128097
-    second: fisherman_0
+      213: 7130027060591207720
+    second: hook 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -72,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: fisherman_0
+      name: hook 1_0
       rect:
         serializedVersion: 2
-        x: 66
-        y: 121
-        width: 1036
-        height: 838
+        x: 156
+        y: 0
+        width: 200
+        height: 512
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f51d251a875f082c0800000000000000
-      internalID: -4431272134881128097
+      spriteID: 8252679c5d1f2f260800000000000000
+      internalID: 7130027060591207720
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: bef740de187bfe4408ed17143988dc78
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      fisherman_0: -4431272134881128097
+      hook 1_0: 7130027060591207720
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

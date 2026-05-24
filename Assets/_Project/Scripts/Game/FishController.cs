@@ -79,6 +79,12 @@ namespace HolyMackerel.Game
         {
             if (IsCaught || hook == null) return;
             IsCaught = true;
+            // SmoothPulseAnimation force-writes localScale every frame; if left
+            // enabled after reparenting it overrides the world-scale-preserving
+            // localScale that SetParent(worldPositionStays:true) computes, so
+            // the fish visibly shrinks on the hook. Disable it here.
+            SmoothPulseAnimation pulse = GetComponent<SmoothPulseAnimation>();
+            if (pulse != null) pulse.enabled = false;
             transform.SetParent(hook.transform, worldPositionStays: true);
         }
     }

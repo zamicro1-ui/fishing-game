@@ -19,7 +19,8 @@ namespace HolyMackerel.LocationSelect
             LocationSelectScene,
             GameScene,
             ShopScene,
-            MuseumScene
+            MuseumScene,
+            AccessoriesShopScene
         }
 
         [Tooltip("Which scene to load when this button is tapped.")]
@@ -56,6 +57,9 @@ namespace HolyMackerel.LocationSelect
                     break;
                 case TargetScene.MuseumScene:
                     SceneLoader.LoadMuseumScene();
+                    break;
+                case TargetScene.AccessoriesShopScene:
+                    SceneLoader.LoadAccessoriesShopScene();
                     break;
             }
         }
